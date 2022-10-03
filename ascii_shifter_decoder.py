@@ -9,27 +9,29 @@ import sys
 def read_packets(path_file):
 
     packets = rdpcap(path_file)
-    string = ""
+    list_strings = []
 
     for packet in packets:
         if TCP in packet and packet[TCP].sport == 12345:
             if Raw in packet:
+                string = ""
                 raw_data = packet[Raw].load
                 for c in raw_data:
                     if c > 31:
                         string = string + chr(c)
-                string = string + '\n'
+                list_strings.append(string)
 
-    return string
+    return list_strings
 
 ''' Function converts plaintext to ciphertext using key '''
 def ascii_shift(key, text):
-    result = ""
     
-    for letter in text:
-        ascii = ( ord(letter) - key - 32 ) % 94 + 32
-        result = result + chr(ascii)
-    return result
+    for strings in text:
+        result = ""
+        for letter in strings:
+            ascii = ( ord(letter) - key - 32 ) % 94 + 32
+            result = result + chr(ascii)
+        print(result)
 
 ''' Main function '''
 def main():
@@ -37,9 +39,7 @@ def main():
         if os.path.exists(sys.argv[1]) and sys.argv[2].isdigit():
             key = int(sys.argv[2])
             text = read_packets(sys.argv[1]);
-            result = ascii_shift(key, text)
-            print("Result: ", result)
-            print()
+            ascii_shift(key, text)
         else:
             print(sys.argv[1] + " file not found or shift number incorrect")
     else:
