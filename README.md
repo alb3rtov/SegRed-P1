@@ -18,7 +18,7 @@ Cuando `alice` termine de enviar datos, entonces el `bob` falso terminará y gen
 ## Uso del script ascii_shifter_decoder.py
 Este script admite dos tipos de archivos, primero una captura realizada con Wireshark o tcpdump con extensión `pcap`. Automáticamente filtrará los paquetes donde va la información enviada por `alice` y decodificará la información. 
 
-El otro tipo de archivos es un archivo de texto plano `txt` generado por el scrip [notbob.py](https://github.com/alb3rtov/SegRed-P1/blob/master/notbob.py).
+El otro tipo de archivos es un archivo de texto plano `txt` generado por el script [notbob.py](https://github.com/alb3rtov/SegRed-P1/blob/master/notbob.py).
 
 Además se le deberá indicar al script cual es el numero de desplazamiento. En este caso es 8.
 
