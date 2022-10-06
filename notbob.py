@@ -12,7 +12,6 @@ class Netcat:
 
     def read(self, length = 1024):
         """ Read 1024 bytes off the socket """
-
         return self.socket.recv(length)
  
     def write(self, data):
@@ -23,15 +22,27 @@ class Netcat:
         """ Close connection """
         self.socket.close()
 
-nc = Netcat('127.0.0.1', 12345)
+''' Main function '''
+def main():
+    nc = Netcat('127.0.0.1', 12345)
+    f = open("data.txt", "a")
 
-while True:
-    data = nc.read()
+    while True:
+        string = ""
+        data = nc.read()
+ 
+        if (len(data) == 0):
+            break
     
-    if (len(data) == 0):
-        break
-    
-    print(data)
-    nc.write(b'OK')
+        for char in data:
+            if char > 31:
+                string = string + chr(char)
+        
+        f.write(string + '\n')
+        nc.write(b'OK')
 
-nc.close()
+    f.close()
+    nc.close()
+
+if __name__ == "__main__":
+    main()

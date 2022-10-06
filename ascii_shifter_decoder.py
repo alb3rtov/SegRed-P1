@@ -24,7 +24,7 @@ def read_packets(path_file):
     return list_strings, len(packets)
 
 ''' Function converts plaintext to ciphertext using key '''
-def ascii_shift(key, text, filename, num_packets):
+def ascii_shift(key, text, filename, num_packets, pcap):
     decoded_file_name = filename + "-decoded.txt" 
     
     for strings in text:
@@ -38,23 +38,42 @@ def ascii_shift(key, text, filename, num_packets):
     
     print()
     if os.path.exists(decoded_file_name):
-        print("Finished. Generated " + decoded_file_name + " file. " + num_packets + " packets have been read.")
+        print("Finished. Generated " + decoded_file_name + " file. ")
+        if pcap:
+            print(num_packets + " packets have been read.")
     else:
         print("An error ocurred during generating decoded file.")
     print()
+
+''' Read file and return list of lines '''
+def read_file(name_file):
+    f = open(name_file, "r")
+    lines = f.readlines()
+    f.close()
+
+    return lines;
 
 ''' Main function '''
 def main():
     if (len(sys.argv) == 3):
         if os.path.exists(sys.argv[1]) and sys.argv[2].isdigit():
+            file = sys.argv[1].split('.')
             key = int(sys.argv[2])
-            text, num_packets = read_packets(sys.argv[1]);
-            ascii_shift(key, text, sys.argv[1].split('.')[0], str(num_packets))
+            num_packets = 0
+
+            if (file[1] == "pcap"):
+                text, num_packets = read_packets(sys.argv[1])
+                pcap = True
+            else:
+                text = read_file(sys.argv[1])
+                pcap = False
+
+            ascii_shift(key, text, file[0], str(num_packets), pcap)
         else:
             print(sys.argv[1] + " file not found or shift number incorrect")
     else:
         print()
-        print("Usage: ascii_shifter_decoder.py <encoded_text_file> <shift number>");
+        print("Usage: ascii_shifter_decoder.py <encoded data (.pcap or .txt)> <shift number>");
         print()
 
 if __name__ == "__main__":
