@@ -25,5 +25,5 @@ Además se le deberá indicar al script cual es el numero de desplazamiento. En 
 Finalmente generará un archivo `txt` con la información decodificada.
 
 ```
-$ ./ascii_shifter_decoder.py <capture.pcap> <shift number>
+$ ./ascii_shifter_decoder.py <encoded data (.pcap or .txt)> <shift number>
 ```
